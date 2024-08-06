@@ -10,15 +10,6 @@ const axios = require('axios');
 const { getGameStatus, getCurrentRound } = require('../server/game')
 
 const TOKEN = '7494067656:AAEy3-yiq3GzjaJY8VQyBdWgpuiRZ3wTjVo';
-function getRequestBuffer(uri, callback) {
-    request({ uri, encoding: null }, (error, response, body) => {
-        if (!error && response.statusCode === 200) {
-            callback(null, body);
-        } else {
-            callback(error || new Error(`Failed to fetch ${uri}`));
-        }
-    });
-}
 
 const fetchUserProfilePhotos = async (telegramId) => {
     try {
@@ -81,27 +72,17 @@ router.post('/loginUser', async function (req, res, next) {
             const createdUser = await User.addUser({username, telegramId, first_name, last_name});
             var imgUrl = await fetchUserProfilePhotos(createdUser.telegramId);
             var base64String = "";
-            await getRequestBuffer(imgUrl, async (error, buffer) => {
-                if (error)
-                {
-                    console.error("Avatar fetch failed.", error);
-                    res.send({
-                      info: null,
-                      error: 'Server error.'
-                    });
-                }
-                else {
-                    base64String = buffer.toString('base64');
-                    const updatedUser = await User.setAvatar(createdUser._id, base64String);
-                    if(updatedUser == null) res.send({ info: null, error: 'Server error.'});
-                    else {
-                        res.send({
-                          info: { userInfo : updatedUser, gameStatus : gameStatus, bets: bets, womens:womens},
-                          error: ''
-                        });
-                    }
-                }
-            });
+            console.log(imgUrl);
+            const response = await axios.get(imgUrl, { responseType: 'arraybuffer' });
+            base64String = response.data.toString('base64');
+            const updatedUser = await User.setAvatar(createdUser._id, base64String);
+            if(updatedUser == null) res.send({ info: null, error: 'Server error.'});
+            else {
+                res.send({
+                  info: { userInfo : updatedUser, gameStatus : gameStatus, bets: bets, womens:womens},
+                  error: ''
+                });
+            }
         }
       }
       catch(err) {

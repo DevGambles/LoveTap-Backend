@@ -5,8 +5,8 @@ const Game = require("../models/game")
 const DailyPoint = require("../models/dailyPoint")
 const { broadcastMessage } = require("./ably")
 
-const roundPeriod = 1.5; //2 min per round
-const prepareRoundPeriod = 0.5 //prepare round for 0.5 min
+const roundPeriod = 30; //2 min per round
+const prepareRoundPeriod = 0.5; //prepare round for 0.5 min
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
