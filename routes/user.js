@@ -50,7 +50,6 @@ router.post('/loginUser', async function (req, res, next) {
     const telegramId = req.body.telegramId;
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
-
     const activeGame = await Game.getActiveGame(); 
     const activeRound = await Game.getCurrentRound();
     const womens = await Women.getAllWomens(); //get women info
@@ -72,9 +71,12 @@ router.post('/loginUser', async function (req, res, next) {
             const createdUser = await User.addUser({username, telegramId, first_name, last_name});
             var imgUrl = await fetchUserProfilePhotos(createdUser.telegramId);
             var base64String = "";
-            console.log(imgUrl);
-            const response = await axios.get(imgUrl, { responseType: 'arraybuffer' });
-            base64String = response.data.toString('base64');
+            var response;
+            if(imgUrl != null)
+            {
+              response = await axios.get(imgUrl, { responseType: 'arraybuffer' });
+              base64String = response.data.toString('base64');
+            }
             const updatedUser = await User.setAvatar(createdUser._id, base64String);
             if(updatedUser == null) res.send({ info: null, error: 'Server error.'});
             else {
