@@ -1,9 +1,6 @@
 const Ably = require('ably');
 // Initialize Ably with your API key
-const ably = new Ably.Realtime({
-  key: 'Y0JswA.a8WNqg:NylcmIvzGaGj1ptBdMjnQ7pFRgicUHnKIoViuZHObxo',
-  transportParams: { heartbeatInterval : 5000}
-});
+const ably = new Ably.Realtime('Y0JswA.a8WNqg:NylcmIvzGaGj1ptBdMjnQ7pFRgicUHnKIoViuZHObxo');
 
 ably.connection.once("connected", () => {
   console.log("Connected to Ably!")
