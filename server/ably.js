@@ -7,6 +7,14 @@ const ably = new Ably.Realtime({
 ably.connection.once("connected", () => {
   console.log("Connected to Ably!")
 })
+ably.connection.on('suspended', () => {
+  console.warn('Connection suspended, attempting to reconnect...');
+  ably.connect(); // Attempt to reconnect
+});
+
+ably.connection.on('connected', () => {
+  console.log('Reconnected to Ably!');
+});
 // Create a channel
 const channel = ably.channels.get('broadcast-channel');
 
