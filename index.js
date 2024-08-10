@@ -8,7 +8,6 @@ var Game = require('./models/game');
 var Bet = require('./models/bet')
 const { InitGame, generateRandomMatches, checkGameStatus, saveDailyPoint } = require('./server/game')
 const cors = require('cors');
-const { broadcastMessage } = require('./server/ably');
 
 var app = express()
 
@@ -65,7 +64,6 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
         activeGame = await Game.getActiveGame();
         activeRound = await Game.getCurrentRound();
         let rTxt = await checkGameStatus(now, activeGame, activeRound);
-        if(rTxt != "") broadcastMessage(rTxt);
         // Add any additional logic or functionality you want to execute every 2 minutes
       }, 0.5 * 60 * 1000);
     }, delay);

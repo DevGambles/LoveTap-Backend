@@ -3,10 +3,9 @@ const Women = require("../models/women")
 const Bet = require("../models/bet")
 const Game = require("../models/game")
 const DailyPoint = require("../models/dailyPoint")
-const { broadcastMessage } = require("./ably")
 
-const roundPeriod = 24 * 60 * 7; //2 min per round
-// const roundPeriod = 1.5;
+// const roundPeriod = 24 * 60 * 7; //2 min per round
+const roundPeriod = 1.5;
 const prepareRoundPeriod = 0.5; //prepare round for 0.5 min
 
 function shuffleArray(array) {
@@ -43,6 +42,7 @@ async function saveDailyPoint(){
 async function checkGameStatus(now, activeGame, activeRound){
     var returnData = "";
     const status = new Date();
+    
     console.log("Checking Status: ", status.getTime());
     if(Math.abs(now.getTime() - activeRound.roundStartAt) <= 10000){
       returnData = {
@@ -90,7 +90,7 @@ async function endRound(activeGame, activeRound){
       "gamestatus": returnvalue,
       "roundResult": winners,
     };
-    broadcastMessage(returnData);
+    // broadcastMessage(returnData);
     console.log("==========Round Ended===========");
   }
   else if(activeRound.roundNum == 5){
@@ -111,7 +111,7 @@ async function endRound(activeGame, activeRound){
       "msg":"New Round Data",
       "gamestatus": returnvalue,
     };
-    broadcastMessage(returnData);
+    // broadcastMessage(returnData);
     console.log("=============End Game================");
   }
 }
@@ -124,12 +124,14 @@ async function getGameStatus() {
     activeGameId: activeRound.gameId,
     activeRoundNum: activeRound.roundNum,
     matches: activeRound.matches, 
-    endAt: roundPeriod * 60000 - ( time - activeRound.roundStartAt ),
+    startAt: activeRound.roundStartAt,
+    endAt: activeRound.roundStartAt + roundPeriod * 60000,
     isPreparing: false,
   }
   if(time < activeRound.roundStartAt){
     gameStatus.isPreparing = true;
-    gameStatus.endAt = activeRound.roundStartAt - time; 
+    gameStatus.startAt = activeRound.roundStartAt - prepareRoundPeriod*60000;
+    gameStatus.endAt = activeRound.roundStartAt; 
   }
   return gameStatus;
 }

@@ -140,6 +140,18 @@ router.post('/getLeaders', async function (req,res){
   }
 });
 
+router.get('/getRoundResult', async function(req, res, next){
+  try{
+    const gameStatus = await getGameStatus(); //get game status
+    console.log(gameStatus);
+    res.send({info: gameStatus, error: null})
+  }
+  catch(err){
+    console.log('getRoundResult error ===> ', err)
+    res.send({info: null, error: "Server error."})
+  }
+});
+
 router.post('/updatePoints', async function (req, res) {
   try {
     const id = req.body.id;
