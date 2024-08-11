@@ -4,8 +4,8 @@ const Bet = require("../models/bet")
 const Game = require("../models/game")
 const DailyPoint = require("../models/dailyPoint")
 
-// const roundPeriod = 24 * 60 * 7; //2 min per round
-const roundPeriod = 1.5;
+const roundPeriod = 24 * 60 * 7; //2 min per round
+// const roundPeriod = 1.5;
 const prepareRoundPeriod = 0.5; //prepare round for 0.5 min
 
 function shuffleArray(array) {
