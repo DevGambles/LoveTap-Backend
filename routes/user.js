@@ -132,6 +132,21 @@ router.post('/getLeaders', async function (req,res){
   try {
     const periodType = req.body.periodType;
     const returnData = await DailyPoint.getLeaders(periodType);
+    for(var i=0;i<returnData.length;i++){
+      for(var j=i+1;j<returnData.length;j++){
+        if(returnData[i].points < returnData[j].points){
+          var name = returnData[i].userName;
+          var point = returnData[i].points;
+          var avatar = returnData[i].avatar;
+          returnData[i].userName = returnData[j].userName;
+          returnData[i].points = returnData[j].points;
+          returnData[i].avatar = returnData[j].avatar;
+          returnData[j].userName = name;
+          returnData[j].points = point;
+          returnData[j].avatar = avatar;
+        }
+      }
+    }
     res.send({info:returnData,error:null});
   }
   catch(err) {
