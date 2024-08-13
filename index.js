@@ -42,7 +42,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     let activeGame = await Game.getActiveGame();
     let activeRound = await Game.getCurrentRound();
 
-    const nextTenMinutes = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes + 1,0);  //after in one minutes
+    const nextTenMinutes = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes + 1);  //after in one minutes
 
     const delay = nextTenMinutes.getTime() - now.getTime();
 
