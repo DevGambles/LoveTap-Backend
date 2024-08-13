@@ -35,9 +35,9 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
     const womens = [...Array(32).keys()];
 
-    // const nextHalfHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes + 2,0);  //after in 2 minutes
+    const nextHalfHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours + 10, 0);  //after in 2 minutes
     
-    // await InitGame(nextHalfHour, generateRandomMatches(womens));
+    await InitGame(nextHalfHour, generateRandomMatches(womens));
 
     let activeGame = await Game.getActiveGame();
     let activeRound = await Game.getCurrentRound();
