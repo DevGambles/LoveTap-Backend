@@ -6,7 +6,7 @@ const DailyPoint = require("../models/dailyPoint")
 
 // const roundPeriod = 24 * 60 * 7; //2 min per round
 // const roundPeriod = 30;
-const roundPeriod = 1.5;
+const roundPeriod = 2;
 const prepareRoundPeriod = 0.5; //prepare round for 0.5 min
 
 function shuffleArray(array) {
