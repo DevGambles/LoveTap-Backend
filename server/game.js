@@ -45,6 +45,7 @@ async function endRound(){
   let activeGame = await Game.getActiveGame();
   let activeRound = await Game.getCurrentRound();
   const winners = await Game.endRound(activeRound.roundNum);
+  console.log(winners);
   if(activeRound.roundNum < 5) {
     //calculate the round result
     await Bet.calcBetResult(activeGame.gameId, activeGame.roundNum, winners);
