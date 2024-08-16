@@ -7,7 +7,7 @@ const Bet = require("../models/bet");
 const DailyPoint = require("../models/dailyPoint")
 const request = require('request');
 const axios = require('axios');
-const { getGameStatus, getCurrentRound } = require('../server/game')
+const { getGameStatus, endRound } = require('../server/game')
 
 const TOKEN = '7494067656:AAEy3-yiq3GzjaJY8VQyBdWgpuiRZ3wTjVo';
 
@@ -163,6 +163,17 @@ router.get('/getRoundResult', async function(req, res, next){
   }
   catch(err){
     console.log('getRoundResult error ===> ', err)
+    res.send({info: null, error: "Server error."})
+  }
+});
+
+router.get('/finishRound', async function(req, res, next){
+  try{
+    endRound();
+    res.send({info: "Success", error: null})
+  }
+  catch(err){
+    console.log('finishRound error ===> ', err)
     res.send({info: null, error: "Server error."})
   }
 });

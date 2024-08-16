@@ -40,43 +40,9 @@ async function saveDailyPoint(){
     await DailyPoint.bulkInput(new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime());
 }
 
-async function checkGameStatus(now, activeGame, activeRound){
-    var returnData = "";
-    const status = new Date();
-    
-    console.log("Checking Status: ", status.getTime());
-    if(Math.abs(now.getTime() - activeRound.roundStartAt) <= 10000){
-      returnData = {
-        "msg":"Round Started",
-        "endAt":roundPeriod,
-        "roundId":activeRound.roundNum,
-      };
-      console.log("==============Round Started=================");
-      return returnData;
-    }
-    if(Math.abs(now.getTime() - (activeRound.roundStartAt + roundPeriod * 60000)) < 10000){
-      returnData = {
-        "msg":"Round Ended",
-        "endAt":prepareRoundPeriod,
-        "roundId":activeRound.roundNum == 5 ? 1 : activeRound.roundNum + 1,
-      };
-      endRound(activeGame, activeRound);
-      return returnData;
-    }
-    if(Math.abs(now.getTime() - (activeRound.roundStartAt - prepareRoundPeriod * 60000)) < 10000){
-      console.log("==============Prepare Started=========")
-      // returnData = {
-      //   "msg":"Prepare Started",
-      //   "endAt":prepareRoundPeriod,
-      //   "roundId":activeRound.roundNum,
-      // };
-      return returnData;
-    }
-    return returnData;
-}
-
-
-async function endRound(activeGame, activeRound){
+async function endRound(){
+  let activeGame = await Game.getActiveGame();
+  let activeRound = await Game.getCurrentRound();
   const winners = await Game.endRound(activeRound.roundNum);
   if(activeRound.roundNum < 5) {
     //calculate the round result
@@ -137,4 +103,4 @@ async function getGameStatus() {
   return gameStatus;
 }
 
-module.exports = { InitGame, checkGameStatus, getGameStatus, generateRandomMatches, saveDailyPoint };
+module.exports = { InitGame, getGameStatus, generateRandomMatches, saveDailyPoint, endRound };
