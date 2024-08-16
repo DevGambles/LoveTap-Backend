@@ -10,7 +10,7 @@ const axios = require('axios');
 const { getGameStatus, endRound } = require('../server/game')
 
 const TOKEN = '7494067656:AAEy3-yiq3GzjaJY8VQyBdWgpuiRZ3wTjVo';
-const flag = 0;
+var flag = 0;
 
 const fetchUserProfilePhotos = async (telegramId) => {
     try {
@@ -169,7 +169,7 @@ router.get('/getRoundResult', async function(req, res, next){
   }
 });
 
-router.get('/finishRound', async function(req, res, next){
+router.get('/finishRound', function(req, res, next){
   try{
     if(flag == 0)
     {
