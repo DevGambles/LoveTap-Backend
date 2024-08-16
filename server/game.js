@@ -41,6 +41,7 @@ async function saveDailyPoint(){
 }
 
 async function endRound(){
+  console.log("End Round");
   let activeGame = await Game.getActiveGame();
   let activeRound = await Game.getCurrentRound();
   const winners = await Game.endRound(activeRound.roundNum);
