@@ -28,7 +28,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async () =>  {
     console.log('Connected to MongoDB');
     await Bet.clearBet();
-//update
+    
     let now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes();
