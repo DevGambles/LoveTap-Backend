@@ -173,6 +173,7 @@ router.get('/finishRound', function(req, res, next){
   try{
     if(flag == 0)
     {
+      console.log("Finish Round");
       endRound();
       flag = 1;
     }
