@@ -169,13 +169,13 @@ router.get('/getRoundResult', async function(req, res, next){
   }
 });
 
-router.get('/finishRound', function(req, res, next){
+router.get('/finishRound', async function(req, res, next){
   try{
     if(flag == 0)
     {
       console.log("Finish Round");
-      endRound();
       flag = 1;
+      await endRound();
     }
     res.send({info: "Success", error: null})
   }
